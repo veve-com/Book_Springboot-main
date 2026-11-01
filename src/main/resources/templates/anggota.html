@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daftar anggota</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<main>
+    <div class="head">
+        <div>
+            <h1>Daftar anggota</h1>
+            <p>Batas pinjam adalah jumlah buku yang boleh dipinjam bersamaan.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th class="angka">Batas pinjam</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${daftarAnggota}">
+                    <td class="id" th:text="${a.idAnggota}">A001</td>
+                    <td class="judul" th:text="${a.nama}">Nama</td>
+                    <td class="angka">
+                        <span class="stok" th:text="${a.batasPinjam} + ' buku'">2 buku</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(daftarAnggota)}">
+                    <td colspan="3" class="kosong">Belum ada anggota.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

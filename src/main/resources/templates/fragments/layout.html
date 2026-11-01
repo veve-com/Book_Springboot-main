@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header class="topbar" th:fragment="topbar">
+        <div class="inner">
+            <span class="brand">Perpustakaan FILKOM</span>
+            <nav>
+                <a th:href="@{/buku}">Daftar buku</a>
+                <a th:href="@{/anggota}">Anggota</a>
+                <a th:href="@{/pinjam}">Pinjam buku</a>
+                <a th:href="@{/stok}">Kelola stok</a>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daftar buku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<main>
+    <div class="head">
+        <div>
+            <h1>Daftar buku</h1>
+            <p>Pilih buku yang ingin dipinjam. Stok berkurang setelah peminjaman berhasil.</p>
+        </div>
+        <a class="btn" th:href="@{/buku/tambah}">Tambah buku</a>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Judul</th><th class="angka">Stok</th><th class="angka">Aksi</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="b : ${daftarBuku}">
+                    <td class="id" th:text="${b.idBuku}">B001</td>
+                    <td class="judul" th:text="${b.judul}">Judul buku</td>
+                    <td class="angka">
+                        <span class="stok"
+                              th:classappend="${b.stok == 0} ? 'habis' : (${b.stok <= 2} ? 'sedikit' : '')"
+                              th:text="${b.stok == 0} ? 'Habis' : ${b.stok}">3</span>
+                    </td>
+                    <td class="angka">
+                        <form th:action="@{/pinjam}" method="post">
+                            <input type="hidden" name="idBuku" th:value="${b.idBuku}">
+                            <button type="submit" class="btn btn-small">Pinjam</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(daftarBuku)}">
+                    <td colspan="4" class="kosong">Belum ada buku. Klik "Tambah buku" untuk menambahkan yang pertama.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

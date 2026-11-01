@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tambah buku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<main class="sempit">
+    <div class="head"><h1>Tambah buku</h1></div>
+
+    <div class="kartu">
+        <form th:action="@{/buku}" method="post">
+            <div class="kolom">
+                <label for="idBuku">ID buku</label>
+                <input id="idBuku" name="idBuku" maxlength="10" required placeholder="B004">
+                <small>Maksimal 10 karakter.</small>
+            </div>
+            <div class="kolom">
+                <label for="judul">Judul</label>
+                <input id="judul" name="judul" maxlength="200" required>
+            </div>
+            <div class="kolom">
+                <label for="stok">Stok</label>
+                <input id="stok" name="stok" type="number" min="0" value="1" required>
+            </div>
+            <div class="aksi">
+                <button type="submit" class="btn">Simpan buku</button>
+                <a class="btn btn-plain" th:href="@{/buku}">Batal</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

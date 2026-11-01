@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pinjam buku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<main>
+    <div class="head">
+        <div>
+            <h1>Pinjam buku</h1>
+            <p>Anggota: <strong th:text="${idAnggota}">A001</strong></p>
+        </div>
+    </div>
+    <div class="sukses" th:if="${sukses}">
+        <p th:text="${sukses}">Reservasi berhasil</p>
+    </div>
+    <!-- Alur alternatif: pesan gagal + opsi reservasi -->
+    <div class="pesan" th:if="${pesan}">
+        <p th:text="${pesan}">Stok buku habis</p>
+        <form th:if="${bisaReservasi}" th:action="@{/pinjam/reservasi}" method="post">
+            <input type="hidden" name="idBuku" th:value="${idBukuGagal}">
+            <button type="submit" class="btn btn-small">Ajukan reservasi</button>
+        </form>
+    </div>
+
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Judul</th><th class="angka">Stok</th><th class="angka">Aksi</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="b : ${daftarBuku}">
+                    <td class="judul" th:text="${b.judul}">Judul</td>
+                    <td class="angka">
+                        <span class="stok"
+                              th:classappend="${b.stok == 0} ? 'habis' : (${b.stok <= 2} ? 'sedikit' : '')"
+                              th:text="${b.stok == 0} ? 'Habis' : ${b.stok}">3</span>
+                    </td>
+                    <td class="angka">
+                        <form th:action="@{/pinjam}" method="post">
+                            <input type="hidden" name="idBuku" th:value="${b.idBuku}">
+                            <button type="submit" class="btn btn-small">Pinjam</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

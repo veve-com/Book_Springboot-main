@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kelola stok</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<main>
+    <div class="head">
+        <div>
+            <h1>Kelola stok buku</h1>
+            <p>Ubah jumlah stok sesuai hasil pengecekan rak.</p>
+        </div>
+    </div>
+
+    <div class="sukses" th:if="${sukses}"><p th:text="${sukses}">Stok diperbarui</p></div>
+    <div class="pesan" th:if="${pesan}"><p th:text="${pesan}">Gagal</p></div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Judul</th>
+                    <th class="angka">Stok saat ini</th>
+                    <th class="angka">Stok baru</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="b : ${daftarBuku}">
+                    <td class="id" th:text="${b.idBuku}">B001</td>
+                    <td class="judul" th:text="${b.judul}">Judul</td>
+                    <td class="angka">
+                        <span class="stok"
+                              th:classappend="${b.stok == 0} ? 'habis' : (${b.stok <= 2} ? 'sedikit' : '')"
+                              th:text="${b.stok == 0} ? 'Habis' : ${b.stok}">3</span>
+                    </td>
+                    <td class="angka">
+                        <form class="baris-stok" th:action="@{/stok}" method="post">
+                            <input type="hidden" name="idBuku" th:value="${b.idBuku}">
+                            <input class="input-stok" type="number" name="stokBaru" min="0"
+                                   th:value="${b.stok}" aria-label="Stok baru">
+                            <button type="submit" class="btn btn-small">Simpan</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(daftarBuku)}">
+                    <td colspan="4" class="kosong">Belum ada buku.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
